@@ -247,4 +247,108 @@ def problem17():
         rep += count_number(number_to_str(i))
     print(rep)
 
+## Problem 15
+
+def fact(n):
+    for i in range(1,n):
+        n*=i
+    return n
+
+def binom(k,n): # implementation merdique
+    return fact(n)//(fact(k)*fact(n-k))
+    
+## Problem 18
+
+M = [3,7,4,2,4,6,9,5,9,3]
+
+
+def string_to_list(str):
+    L = []
+    word = ""
+    for i in str:
+        if ord(i)>=ord('0') and ord(i)<=ord('9'):
+            word += i
+        else:
+            if len(word)>0:
+                L+=[int(word)]
+            word = ""
+    if len(word)>0:
+        L+=[int(word)]
+    return L
+
+str = "75 95 64 17 47 82 18 35 87 10 20 04 82 47 65 19 01 23 75 03 34 88 02 77 73 07 63 67 99 65 04 28 06 16 70 92 41 41 26 56 83 40 80 70 33 41 48 72 33 47 32 37 16 94 29 53 71 44 65 25 43 91 52 97 51 14 70 11 33 28 77 73 17 78 39 68 17 57 91 71 52 38 17 14 91 43 58 50 27 29 48 63 66 04 68 89 53 67 30 73 16 69 87 40 31 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23"
+
+def triangular(n):
+    return (n*(n+1))//2
+
+def trouver_hauteur(x):
+    i = 0
+    while x>triangular(i):
+        i+=1
+    return i
+
+def reduce_path(L):
+    h = trouver_hauteur(len(L))
+    newL = L[:len(L)-h]
+    a = triangular(h-2)
+    b = triangular(h-1)
+    for i in range(h-1):
+        newL[a+i] += max(L[b+i],L[b+i+1])
+    return newL
+    
+def find_max_path(L):
+    while len(L) > 1:
+        L = reduce_path(L)
+    return L[0]
+    
+## Problem 29
+
+def fastpow(x,n):
+    if n == 0:
+        return 1
+    if n%2==0:
+        return pow(x,n//2)*pow(x,n//2)
+    else:
+        return pow(x,n//2)*pow(x,n//2)*x
+
+def gen(a,b):
+    L = []
+    for i in range(2,a+1):
+        for j in range(2,b+1):
+            L += [fastpow(i,j),fastpow(j,i)]
+    L.sort()
+    return L
+
+def singularise(L):
+    rep = []
+    for i in L:
+        if i not in rep:
+            rep += [i]
+    return rep
+    
+## Problem 69
+
+def crible(n):
+    P = [0,0] + list(range(2,n))
+    for i in range(2,int(n**0.5)+1):
+        if P[i] != 0:
+            for j in range(2*i,n,i):
+                P[j] = 0
+    return [p for p in P if p!=0]
+    
+Prime = crible(1000000)
+
+def PrimeFactor(n):
+    L = []
+    for p in Prime:
+        while n%p == 0:
+            L+=[p]
+            n//=p
+    return L
+def f(n):
+    rep = 1
+    for p in PrimeFactor(n):
+        rep *= 1-(1/p)
+    return 1/rep
+
 ## Problem 19
