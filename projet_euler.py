@@ -171,8 +171,6 @@ def Permutation(L):
     
 ## Problem 22
 
-import os
-os.chdir("A:\\Vincent\\Documents\\PCSI2")
 file = open("problem22.txt",'r')
 
 def strToList(str):
