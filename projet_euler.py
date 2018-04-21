@@ -351,4 +351,71 @@ def f(n):
         rep *= 1-(1/p)
     return 1/rep
 
-## Problem 19
+## Problem 26
+import matplotlib.pyplot as plt
+
+def fastpow(x,n):
+    if n == 0:
+        return 1
+    if n%2==0:
+        return pow(x,n//2)*pow(x,n//2)
+    else:
+        return pow(x,n//2)*pow(x,n//2)*x
+
+def checkOccurence(n,L):
+    for i in range(len(L)):
+        if L[i]==n:
+            return i
+# NON FONCTIONEL sauf pour les nombre premier
+def lenCycle(n):
+    L = []
+    i = 0
+
+    while  True:
+        p = int(fastpow(10,i)//n)
+        if p!=0:
+            if p%10 == 0:
+                return 0
+            if p%10 in L:
+                return i-checkOccurence(p%10,L)-1
+            L += [p%10]
+        i+=1
+
+def problem26():
+    max,imax = 0,0
+    for i in range(1,1000):
+        p = lenCycle(i)
+        if p > max:
+            max,imax = p,i
+    return max,imax
+
+def plot():
+    X = range(1,1000)
+    Y = [lenCycle(i) for  i in X]
+    plt.plot(X,Y)
+    plt.grid(True)
+    plt.show()
+
+## Problem 32
+
+def D2B(n,B=10):
+    L = []
+    while n > 0:
+        L = [n%B] + L
+        n//=B
+    return L
+    
+def isPandigital(n,onlyOnce = True):
+    Appear = [False]*9
+    L = D2B(n)
+    if len(L)<9:
+        return False
+    for i in L:
+        if i != 0:
+            if onlyOnce and Appear[i-1]:
+                return False
+            Appear[i-1] = True
+    for j in Appear:
+        if not j:
+            return False
+    return True
